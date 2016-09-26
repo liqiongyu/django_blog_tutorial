@@ -1,4 +1,5 @@
-"""tutorial URL Configuration
+#coding:utf8
+"""blogsite URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.8/topics/http/urls/
@@ -15,7 +16,18 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+import blog.urls as blog_url
+from DjangoUeditor import urls as djud_urls
+from django.conf import settings
+from blog.views import home
 
 urlpatterns = [
+    url(r'^$',home,name="index"),
+    url(r'^blog/',include(blog_url)),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^ueditor/',include(djud_urls)),
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
